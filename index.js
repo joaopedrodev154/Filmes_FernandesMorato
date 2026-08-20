@@ -1,23 +1,17 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const mysql = require("mysql2");
+import express from "express";
+import cors from "cors";
+import mysql from "mysql2"
 
-const app = express();
+const app = express()
+app.use(express.json())
+app.use(cors())
 
-app.use(cors());
-app.use(express.json());
-
-// Pool de conexões: reconecta sozinho e evita esgotar conexões (mais robusto
-// do que uma única conexão com createConnection).
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 10,
-});
+const database = mysql.createPool({
+    host: "benserverplex.ddns.net",
+    user: "alunos",
+    password: "senhaAlunos",
+    database: "alunos_filmes_03MA"
+})
 
 app.get("/filmes", (req, res) => {
     pool.query("SELECT * FROM filmes_JoaoPedroFR", (erro, resultado) => {
