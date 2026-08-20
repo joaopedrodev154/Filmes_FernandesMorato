@@ -14,10 +14,10 @@ const database = mysql.createPool({
 })
 
 app.get("/filmes", (req, res) => {
-    pool.query("SELECT * FROM filmes_JoaoPedroFR", (erro, resultado) => {
+    database.query("SELECT * FROM filmes_JoaoPedroFR", (erro, resultado) => {
         if (erro) {
             console.error(erro);
-            return res.status(500).json({ erro: "Erro ao buscar filmes" });
+            return res.json({ erro: "Erro ao buscar filmes" });
         }
 
         res.status(200).json(resultado);
@@ -31,7 +31,7 @@ app.post("/adicionar-filmes", (req, res) => {
         return res.status(400).json({ erro: "Preencha todos os campos: titulo, genero, duracao, classificacao" });
     }
 
-    pool.query(
+    database.query(
         "INSERT INTO filmes_JoaoPedroFR VALUES (NULL, ?, ?, ?, ?)",
         [titulo, genero, duracao, classificacao],
         (erro) => {
@@ -52,7 +52,7 @@ app.put("/editar-filmes/:id", (req, res) => {
         return res.status(400).json({ erro: "Preencha todos os campos: titulo, genero, duracao, classificacao" });
     }
 
-    pool.query(
+    database.query(
         "UPDATE filmes_JoaoPedroFR SET titulo=?, genero=?, duracao=?, classificacao=? WHERE id=?",
         [titulo, genero, duracao, classificacao, req.params.id],
         (erro, resultado) => {
@@ -71,7 +71,7 @@ app.put("/editar-filmes/:id", (req, res) => {
 });
 
 app.delete("/deletar-filmes/:id", (req, res) => {
-    pool.query(
+    database.query(
         "DELETE FROM filmes_JoaoPedroFR WHERE id=?",
         [req.params.id],
         (erro, resultado) => {
