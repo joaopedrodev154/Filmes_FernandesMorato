@@ -30,7 +30,7 @@ app.get("/filmes", (req, res) => {
     });
 });
 
-app.post("/filmes", (req, res) => {
+app.post("/adicionar-filmes", (req, res) => {
     const { titulo, genero, duracao, classificacao } = req.body;
 
     if (!titulo || !genero || !duracao || !classificacao) {
@@ -51,7 +51,7 @@ app.post("/filmes", (req, res) => {
     );
 });
 
-app.put("/filmes/:id", (req, res) => {
+app.put("/editar-filmes/:id", (req, res) => {
     const { titulo, genero, duracao, classificacao } = req.body;
 
     if (!titulo || !genero || !duracao || !classificacao) {
@@ -76,7 +76,7 @@ app.put("/filmes/:id", (req, res) => {
     );
 });
 
-app.delete("/filmes/:id", (req, res) => {
+app.delete("/deletar-filmes/:id", (req, res) => {
     pool.query(
         "DELETE FROM filmes_JoaoPedroFR WHERE id=?",
         [req.params.id],
